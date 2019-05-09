@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import withRoot from '../hoc/withRoot';
 
-import ConverterForm from '../components/Converter/Form/Form';
+import ConverterForm from '../components/Converter/ConverterForm/ConverterForm';
 
 const propTypes = {
   classes: PropTypes.shape({
@@ -24,7 +24,7 @@ const styles = () => ({
 
 const converterPage = ({ classes }) => (
   <div className={classes.container}>
-    <ConverterForm />
+    <ConverterForm onSubmit={console.log} />
   </div>
 );
 
