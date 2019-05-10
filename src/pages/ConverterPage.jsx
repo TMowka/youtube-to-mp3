@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import withRoot from '../hoc/withRoot';
 
+import ConverterTitle from '../components/Converter/ConverterTitle/ConverterTitle';
 import ConverterForm from '../components/Converter/ConverterForm/ConverterForm';
 
 const propTypes = {
@@ -17,13 +18,17 @@ const defaultProps = {
 
 const styles = () => ({
   container: {
-    width: '100%',
-    height: 'calc(100vh - 16px)',
+    width: '40rem',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
   },
 });
 
 const converterPage = ({ classes }) => (
   <div className={classes.container}>
+    <ConverterTitle />
     <ConverterForm onSubmit={console.log} />
   </div>
 );

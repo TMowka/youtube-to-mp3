@@ -27,9 +27,10 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Youtube To Mp3',
+      title: 'YouTube To Mp3',
       filename: './index.html',
       template: './src/index.html',
+      favicon: './src/assets/favicon.ico',
     }),
   ],
 };

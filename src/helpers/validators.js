@@ -1,11 +1,6 @@
-export const isRequired = value => (value ? null : 'Field is required');
-
+// eslint-disable-next-line import/prefer-default-export
 export const isYoutubeLink = (value) => {
   const regex = /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/gm;
 
-  if (!regex.test(value)) {
-    return 'Invalid youtube link';
-  }
-
-  return null;
+  return regex.test(value);
 };

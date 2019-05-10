@@ -41,6 +41,6 @@
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack.config.js --mode development",
     "start": "electron .",
-    "build": "webpack --config ./webpack.config.js"
+    "build": "webpack --config ./webpack.config.js --mode production"
   }
 }

@@ -43,6 +43,7 @@ const linkField = ({
       placeholder="Enter youtube video link here..."
       type="text"
       variant="outlined"
+      helperText={isInvalid && error}
       fullWidth
       autoFocus
       className={classes.textField}
