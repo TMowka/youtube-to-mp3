@@ -17,6 +17,9 @@ module.exports = {
       'Access-Control-Allow-Origin': '*',
     },
   },
+  node: {
+    fs: 'empty',
+  },
   module: {
     rules: [
       {

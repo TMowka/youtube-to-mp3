@@ -1,30 +1,31 @@
 import { Record } from 'immutable';
 import {
-  all, takeLatest, put, call,
+  all, takeLatest, put,
 } from 'redux-saga/effects';
-import ytdl from 'ytdl-core';
 
 // #region ---> [ CONSTANTS ] <---
 export const moduleName = 'converter';
 
 const CONVERT_REQUEST = `${moduleName}/CONVERT_REQUEST`;
 const CONVERT_ERROR = `${moduleName}/CONVERT_ERROR`;
+const SET_PROGRESS = `${moduleName}/SET_PROGRESS`;
 // #endregion ---< [ CONSTANTS ] >---
 
 // #region ---> [ REDUCER ] <---
 export const ReducerRecord = Record({
   progress: -1,
-  bitRate: 160,
-  downloadsFolder: '',
   error: null,
 });
 
 export default (state = new ReducerRecord(), action) => {
-  const { type, error } = action;
+  const { type, payload, error } = action;
 
   switch (type) {
     case CONVERT_ERROR:
       return state.set('error', error);
+
+    case SET_PROGRESS:
+      return state.set('progress', payload);
 
     default:
       return state;
@@ -55,11 +56,10 @@ export const convert = ({ link }) => {
 // #region ---> [ SAGAS ] <---
 export function* convertSaga({ payload: { id } }) {
   try {
-    console.log('id', id);
-    const info = yield call(ytdl.getInfo, id);
-    console.log('info', info);
+    yield put({ type: SET_PROGRESS, payload: 0 });
   } catch (error) {
     yield put({ type: CONVERT_ERROR, error });
+    yield put({ type: SET_PROGRESS, payload: -1 });
   }
 }
 
