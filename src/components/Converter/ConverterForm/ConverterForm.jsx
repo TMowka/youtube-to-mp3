@@ -71,9 +71,7 @@ const validate = ({ link }) => {
 
   if (!link) {
     errors.link = 'Link cannot be empty';
-  }
-
-  if (!validators.isYoutubeLink(link)) {
+  } else if (!validators.isYoutubeLink(link)) {
     errors.link = 'This is not YouTube link';
   }
 

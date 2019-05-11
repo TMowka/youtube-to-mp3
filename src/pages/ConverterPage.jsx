@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import withRoot from '../hoc/withRoot';
+import { convert } from '../ducks/converter';
 
 import ConverterTitle from '../components/Converter/ConverterTitle/ConverterTitle';
 import ConverterForm from '../components/Converter/ConverterForm/ConverterForm';
@@ -10,6 +13,7 @@ const propTypes = {
   classes: PropTypes.shape({
     container: PropTypes.string,
   }).isRequired,
+  handleConvert: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
@@ -26,16 +30,20 @@ const styles = () => ({
   },
 });
 
-const converterPage = ({ classes }) => (
+const converterPage = ({ classes, handleConvert }) => (
   <div className={classes.container}>
     <ConverterTitle />
-    <ConverterForm onSubmit={console.log} />
+    <ConverterForm onSubmit={handleConvert} />
   </div>
 );
 
 converterPage.propTypes = propTypes;
 converterPage.defaultProps = defaultProps;
 
-export default withStyles(styles)(
-  withRoot(converterPage),
-);
+export default compose(
+  withStyles(styles),
+  withRoot,
+  connect(null, {
+    handleConvert: convert,
+  }),
+)(converterPage);
