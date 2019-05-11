@@ -8,7 +8,7 @@ import {
 import { withStyles } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import Autorenew from '@material-ui/icons/Autorenew';
-import * as validators from '../../../helpers/validators';
+import * as validators from '../../../utils/validators';
 
 import LinkField from './LinkField/LinkField';
 

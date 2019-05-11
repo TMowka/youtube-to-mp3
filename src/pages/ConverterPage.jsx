@@ -6,6 +6,7 @@ import { compose } from 'redux';
 import withRoot from '../hoc/withRoot';
 import { convert } from '../ducks/converter';
 
+import ConverterProgressBar from '../components/Converter/ConverterProgressBar/ConverterProgressBar';
 import ConverterTitle from '../components/Converter/ConverterTitle/ConverterTitle';
 import ConverterForm from '../components/Converter/ConverterForm/ConverterForm';
 
@@ -32,6 +33,7 @@ const styles = () => ({
 
 const converterPage = ({ classes, handleConvert }) => (
   <div className={classes.container}>
+    <ConverterProgressBar />
     <ConverterTitle />
     <ConverterForm onSubmit={handleConvert} />
   </div>

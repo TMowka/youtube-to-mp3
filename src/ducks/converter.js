@@ -1,8 +1,11 @@
 import { Record } from 'immutable';
 import {
-  all, takeLatest, put,
+  all, takeLatest, put, call, take, select,
 } from 'redux-saga/effects';
+import { eventChannel } from 'redux-saga';
 import { ipcRenderer } from 'electron';
+import { OUTPUT, INPUT } from '../utils/constants';
+import { stateSelector as configStateSelector } from './config';
 
 // #region ---> [ CONSTANTS ] <---
 export const moduleName = 'converter';
@@ -35,6 +38,7 @@ export default (state = new ReducerRecord(), action) => {
 // #endregion ---< [ REDUCER ] >---
 
 // #region ---> [ SELECTORS ] <---
+export const stateSelector = state => state[moduleName];
 // #endregion ---< [ SELECTORS ] >---
 
 // #region ---> [ ACTION CREATORS ] <---
@@ -55,18 +59,34 @@ export const convert = ({ link }) => {
 // #endregion ---< [ ACTION CREATORS ] >---
 
 // #region ---> [ SAGAS ] <---
-export function* convertSaga({ payload: { id } }) {
+function* convertSaga({ payload: { id } }) {
   try {
+    const { bitRate, downloadFolder } = yield select(configStateSelector);
     yield put({ type: SET_PROGRESS, payload: 0 });
-    console.log(ipcRenderer);
+    yield call([ipcRenderer, ipcRenderer.send], OUTPUT.CONVERT, id, downloadFolder, bitRate);
   } catch (error) {
     yield put({ type: CONVERT_ERROR, error });
     yield put({ type: SET_PROGRESS, payload: -1 });
   }
 }
 
+const createSetProgressChannel = () => eventChannel((emit) => {
+  ipcRenderer.on(INPUT.SET_PROGRESS, (event, progress) => emit({ progress }));
+});
+
+function* watchSetProgress() {
+  const channel = yield call(createSetProgressChannel);
+
+  while (true) {
+    const { progress } = yield take(channel);
+
+    yield put({ type: SET_PROGRESS, payload: progress });
+  }
+}
+
 export function* saga() {
   yield all([
+    watchSetProgress(),
     takeLatest(CONVERT_REQUEST, convertSaga),
   ]);
 }

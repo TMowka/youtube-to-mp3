@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import Clear from '@material-ui/icons/Clear';
-import { reduxFormInputPropTypes, reduxFormMetaPropTypes } from '../../../../helpers/propTypes';
+import { reduxFormInputPropTypes, reduxFormMetaPropTypes } from '../../../../utils/propTypes';
 
 const propTypes = {
   classes: PropTypes.shape({
