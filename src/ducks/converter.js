@@ -2,6 +2,7 @@ import { Record } from 'immutable';
 import {
   all, takeLatest, put,
 } from 'redux-saga/effects';
+import { ipcRenderer } from 'electron';
 
 // #region ---> [ CONSTANTS ] <---
 export const moduleName = 'converter';
@@ -57,6 +58,7 @@ export const convert = ({ link }) => {
 export function* convertSaga({ payload: { id } }) {
   try {
     yield put({ type: SET_PROGRESS, payload: 0 });
+    console.log(ipcRenderer);
   } catch (error) {
     yield put({ type: CONVERT_ERROR, error });
     yield put({ type: SET_PROGRESS, payload: -1 });

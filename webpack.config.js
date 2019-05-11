@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  target: 'electron-renderer',
   entry: ['babel-polyfill', './src/index.jsx'],
   watch: true,
   output: {
@@ -13,12 +14,6 @@ module.exports = {
   },
   devServer: {
     port: 3000,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-  },
-  node: {
-    fs: 'empty',
   },
   module: {
     rules: [
