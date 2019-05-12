@@ -32,11 +32,13 @@ const styles = () => ({
 });
 
 const converterPage = ({ classes, handleConvert }) => (
-  <div className={classes.container}>
+  <>
     <ConverterProgressBar />
-    <ConverterTitle />
-    <ConverterForm onSubmit={handleConvert} />
-  </div>
+    <div className={classes.container}>
+      <ConverterTitle />
+      <ConverterForm onSubmit={handleConvert} />
+    </div>
+  </>
 );
 
 converterPage.propTypes = propTypes;

@@ -80,6 +80,9 @@ ipcMain.on(`${inputChannelName}-convert`, async (event, id, downloadFolder = app
     const audioFullPath = path.join(downloadFolder, sanitizedTitle);
     const videoObj = ytdl(id, { filter: 'audioonly' });
 
+    mainWindow.webContents.send(`${outputChannelName}-set-progress`, 0);
+    mainWindow.webContents.send(`${outputChannelName}-set-step`, 'downloading');
+
     // Download temp mp4 file
     await new Promise((resolve) => {
       videoObj.on('progress', (chunkLength, downloaded, total) => {
@@ -91,6 +94,9 @@ ipcMain.on(`${inputChannelName}-convert`, async (event, id, downloadFolder = app
         .pipe(fs.createWriteStream(videoFullPath))
         .on('finish', resolve);
     });
+
+    mainWindow.webContents.send(`${outputChannelName}-set-step`, 'converting');
+    mainWindow.webContents.send(`${outputChannelName}-set-progress`, -1);
 
     // Convert temp mp4 file to mp3
     await new Promise((resolve) => {
@@ -105,6 +111,8 @@ ipcMain.on(`${inputChannelName}-convert`, async (event, id, downloadFolder = app
 
     // Remove temp mp4 file
     await fs.unlink(videoFullPath);
+
+    mainWindow.webContents.send(`${outputChannelName}-set-step`, '');
   } catch (error) {
     console.error(error);
   }
